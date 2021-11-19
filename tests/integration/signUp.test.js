@@ -1,3 +1,4 @@
+import '../../src/setup.js';
 import clearDatabase from '../utils/database.js';
 import connection from '../../src/database/database.js';
 import supertest from 'supertest';
@@ -14,7 +15,7 @@ afterAll(() => {
 
 describe(`POST ${signUpRoute}`, () => {
 
-  it('return status 201 for valid access', async () => {
+  it('return status 201 for valid inputs', async () => {
     const userData = {
       name: faker.name.findName(),
       email: faker.internet.email(),
