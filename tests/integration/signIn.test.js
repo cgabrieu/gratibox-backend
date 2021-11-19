@@ -47,4 +47,16 @@ describe(`POST ${signInRoute}`, () => {
       '"password" length must be at least 6 characters long',
     );
   });
+
+  it('creates a session for valid access', async () => {
+    const newUser = await createUser();
+
+    const sessions = await connection.query('SELECT * FROM sessions');
+    expect(sessions.rows.length).toEqual(0);
+
+    await request.post(signInRoute).send(newUser);
+
+    const newSessions = await connection.query('SELECT * FROM sessions;');
+    expect(newSessions.rows.length).toEqual(1);
+  });
 });
