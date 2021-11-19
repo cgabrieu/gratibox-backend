@@ -1,16 +1,28 @@
 import clearDatabase from '../utils/database.js';
-import supertest from 'supertest';
 import connection from '../../src/database/database.js';
+import supertest from 'supertest';
+import faker from 'faker/locale/pt_BR';
+import app from '../../src/app.js';
+
+const request = supertest(app);
+const signUpRoute = '/auth/sign-up';
 
 afterAll(() => {
   connection.end();
   clearDatabase();
 });
 
-describe('POST /auth/sign-up', () => {
+describe(`POST ${signUpRoute}`, () => {
 
-  it('returns 4 for 2+2', async () => {
-    expect(2+2).toEqual(4);
+  it('return status 201 for valid access', async () => {
+    const userData = {
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(8),
+    };
+
+    const result = await request.post(signUpRoute).send(userData);
+    expect(result.status).toEqual(201);
   })
 
 });

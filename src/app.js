@@ -1,7 +1,6 @@
 import './setup.js';
 import express from 'express';
 import cors from 'cors';
-import connection from './database/database.js';
 import signUp from './controllers/signUp.js';
 
 const app = express();
