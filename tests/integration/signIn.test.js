@@ -1,4 +1,5 @@
 import '../../src/setup.js';
+import jwt from 'jsonwebtoken';
 import clearDatabase from '../utils/database.js';
 import connection from '../../src/database/database.js';
 import supertest from 'supertest';
@@ -58,5 +59,23 @@ describe(`POST ${signInRoute}`, () => {
 
     const newSessions = await connection.query('SELECT * FROM sessions;');
     expect(newSessions.rows.length).toEqual(1);
+  });
+
+  it('returns a valid jwt token on valid access', async () => {
+    const newUser = await createUser();
+
+    const bodyData = {
+      email: newUser.email,
+      password: newUser.password,
+    };
+
+    const { body } = await request.post(signInRoute).send(bodyData);
+
+    const sessions = await connection.query('SELECT * FROM sessions');
+    const sessionId = sessions.rows[0].id;
+
+    jwt.verify(body.token, process.env.JWT_SECRET, (err, decoded) => {
+      expect(decoded.sessionId).toEqual(sessionId);
+    });
   });
 });
