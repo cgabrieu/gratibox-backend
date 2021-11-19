@@ -9,8 +9,8 @@ const request = supertest(app);
 const signUpRoute = '/auth/sign-up';
 
 afterAll(() => {
-  connection.end();
   clearDatabase();
+  connection.end();
 });
 
 describe(`POST ${signUpRoute}`, () => {
