@@ -20,5 +20,31 @@ describe(`POST ${signInRoute}`, () => {
     const newUser = await createUser();
     const result = await request.post(signInRoute).send(newUser);
     expect(result.status).toEqual(200);
-  })
+  });
+
+  it('returns status 400 for invalid format inputs', async () => {
+    const body = {};
+    const result = await request.post(signInRoute).send(body);
+    expect(result.status).toEqual(400);
+  });
+
+  it('returns invalid msg email for invalid format email', async () => {
+    const body = {
+      email: faker.name.findName(),
+      password: faker.internet.password(8),
+    };
+    const result = await request.post(signInRoute).send(body);
+    expect(result.text).toEqual('"email" must be a valid email');
+  });
+
+  it('returns invalid msg for invalid format password', async () => {
+    const body = {
+      email: faker.internet.email(),
+      password: faker.internet.password(5),
+    };
+    const result = await request.post(signInRoute).send(body);
+    expect(result.text).toEqual(
+      '"password" length must be at least 6 characters long',
+    );
+  });
 });
