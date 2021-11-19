@@ -15,15 +15,54 @@ afterAll(() => {
 
 describe(`POST ${signUpRoute}`, () => {
 
-  it('return status 201 for valid inputs', async () => {
-    const userData = {
+  it('returns status 201 for valid inputs', async () => {
+    const body = {
       name: faker.name.findName(),
       email: faker.internet.email(),
       password: faker.internet.password(8),
     };
-
-    const result = await request.post(signUpRoute).send(userData);
+    const result = await request.post(signUpRoute).send(body);
     expect(result.status).toEqual(201);
+  })
+
+  it('returns status 400 for invalid name', async () => {
+    const body = {
+      name: faker.datatype.number(2),
+      email: faker.internet.email(),
+      password: faker.internet.password(8),
+    };
+    const result = await request.post(signUpRoute).send(body);
+    expect(result.status).toEqual(400);
+  })
+
+  it('returns status 400 for invalid email', async () => {
+    const body = {
+      name: faker.name.findName(),
+      email: faker.name.findName(),
+      password: faker.internet.password(8),
+    };
+    const result = await request.post(signUpRoute).send(body);
+    expect(result.status).toEqual(400);
+  })
+
+  it('returns status 400 for empty email', async () => {
+    const body = {
+      name: faker.name.findName(),
+      email: '',
+      password: faker.internet.password(8),
+    };
+    const result = await request.post(signUpRoute).send(body);
+    expect(result.status).toEqual(400);
+  })
+
+  it('returns status 400 for invalid password', async () => {
+    const body = {
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(5),
+    };
+    const result = await request.post(signUpRoute).send(body);
+    expect(result.status).toEqual(400);
   })
 
 });

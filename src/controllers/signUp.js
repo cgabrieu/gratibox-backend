@@ -20,7 +20,7 @@ export default async function signUp(req, res) {
     );
 
     if (resultUser.rowCount > 0) {
-      return res.status(409).send('Usuário já existente.');
+      return res.status(409).send('E-mail já cadastrado.');
     }
 
     const hashPassword = bcrypt.hashSync(password, 10);
