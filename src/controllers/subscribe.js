@@ -35,16 +35,25 @@ export default async function subscribe(req, res) {
       return res.status(409).send('Usuário já possui assinatura.');
     }
 
-    await connection.query(
+    const resultSubscription = await connection.query(
       `INSERT INTO subscriptions
       (user_id, plan_type, ${dayMonth ? 'day_month' : 'day_week'})
-      VALUES ($1, $2, $3)`,
+      VALUES ($1, $2, $3)
+      RETURNING id;`,
       [userId, planType, (dayMonth || dayWeek)],
     );
+    const subscriptionId = resultSubscription.rows[0].id;
+
+    receivingOptions.forEach(async (option) => {
+      await connection.query(
+        `INSERT INTO receiving_option
+        (subscription_id, option_name)
+        VALUES ($1, $2)`,
+        [subscriptionId, option.option_name],
+      );
+    });
 
     return res.status(201).send(`Assinatura (${planType} - Dia ${dayMonth || dayWeek}) registrada.`);
-
-    // return res.status(401).send('E-mail ou senha inválidos');
   } catch (error) {
     console.log(error);
     return res.status(500);
