@@ -34,11 +34,11 @@ export default async function subscribe(req, res) {
     if (resultSubscriptions.rowCount > 0) {
       return res.status(409).send('Usuário já possui assinatura.');
     }
-
+    console.log(userId, planType, (dayMonth || dayWeek));
     await connection.query(
       `INSERT INTO subscriptions
-          (user_id, plan_type, ${dayMonth ? 'day_month' : 'day_week'})
-          VALUES ($1, $2, $3)`,
+      (user_id, plan_type, ${dayMonth ? 'day_month' : 'day_week'})
+      VALUES ($1, $2, $3)`,
       [userId, planType, (dayMonth || dayWeek)],
     );
 

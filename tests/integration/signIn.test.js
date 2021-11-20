@@ -70,7 +70,7 @@ describe(`POST ${signInRoute}`, () => {
     expect(newSessions.rows.length).toEqual(1);
   });
 
-  it('returns a valid jwt token on valid access', async () => {
+  it('returns a valid jwt token for valid access', async () => {
     const newUser = await createUser();
 
     const bodyData = {
