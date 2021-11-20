@@ -19,7 +19,13 @@ beforeEach(clearDatabase);
 describe(`POST ${signInRoute}`, () => {
   it('returns status 200 for valid access', async () => {
     const newUser = await createUser();
-    const result = await request.post(signInRoute).send(newUser);
+
+    const body = {
+      email: newUser.email,
+      password: newUser.password
+    }
+
+    const result = await request.post(signInRoute).send(body);
     expect(result.status).toEqual(200);
   });
 
@@ -55,7 +61,10 @@ describe(`POST ${signInRoute}`, () => {
     const sessions = await connection.query('SELECT * FROM sessions');
     expect(sessions.rows.length).toEqual(0);
 
-    await request.post(signInRoute).send(newUser);
+    await request.post(signInRoute).send({
+      email: newUser.email,
+      password: newUser.password
+    });
 
     const newSessions = await connection.query('SELECT * FROM sessions;');
     expect(newSessions.rows.length).toEqual(1);
