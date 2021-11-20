@@ -1,5 +1,6 @@
 import faker from 'faker/locale/pt_BR';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import connection from '../../src/database/database';
 
 async function createUser() {
@@ -9,7 +10,7 @@ async function createUser() {
   const newUser = await connection.query(
     `INSERT INTO users (name, email, password)
       VALUES ($1, $2, $3)
-      RETURNING email, password;`,
+      RETURNING id, email, password;`,
     [faker.name.findName(), faker.internet.email(), hash],
   );
 
@@ -17,4 +18,25 @@ async function createUser() {
   return newUser.rows[0];
 }
 
-export { createUser };
+async function createSession() {
+  const { id: userId } = await createUser();
+  const result = await connection.query(
+    `INSERT INTO sessions 
+    (user_id) VALUES ($1)
+    RETURNING id;`,
+    [userId],
+  );
+  return result.rows[0].id;
+}
+
+async function createToken() {
+  const token = jwt.sign(
+    { sessionId: await createSession() },
+    process.env.JWT_SECRET,
+    { expiresIn: 60 * 60 },
+  );
+
+  return token;
+}
+
+export { createUser, createSession, createToken };

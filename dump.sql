@@ -51,8 +51,8 @@ CREATE TABLE "subscriptions" (
 	"user_id" integer NOT NULL,
 	"plan_type" plan_type NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT now(),
-	"day_month" char,
-	"day_week" char,
+	"day_month" day_month,
+	"day_week" day_week,
 	CONSTRAINT "subscriptions_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
