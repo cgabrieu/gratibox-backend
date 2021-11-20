@@ -1,5 +1,6 @@
 import faker from 'faker/locale/pt_BR';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import connection from '../../src/database/database';
 
 async function createUser() {
@@ -28,4 +29,14 @@ async function createSession() {
   return result.rows[0].id;
 }
 
-export { createUser, createSession };
+async function createToken() {
+  const token = jwt.sign(
+    { sessionId: await createSession() },
+    process.env.JWT_SECRET,
+    { expiresIn: 60 * 60 },
+  );
+
+  return token;
+}
+
+export { createUser, createSession, createToken };

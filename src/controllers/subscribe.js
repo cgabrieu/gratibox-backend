@@ -34,7 +34,7 @@ export default async function subscribe(req, res) {
     if (resultSubscriptions.rowCount > 0) {
       return res.status(409).send('Usuário já possui assinatura.');
     }
-    console.log(userId, planType, (dayMonth || dayWeek));
+
     await connection.query(
       `INSERT INTO subscriptions
       (user_id, plan_type, ${dayMonth ? 'day_month' : 'day_week'})
@@ -42,7 +42,7 @@ export default async function subscribe(req, res) {
       [userId, planType, (dayMonth || dayWeek)],
     );
 
-    return res.status(201).send(`Assinatura ${planType} - dia ${dayMonth || dayWeek} registrada.`);
+    return res.status(201).send(`Assinatura (${planType} - Dia ${dayMonth || dayWeek}) registrada.`);
 
     // return res.status(401).send('E-mail ou senha inválidos');
   } catch (error) {
