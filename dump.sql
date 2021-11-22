@@ -23,7 +23,7 @@ CREATE TABLE "addresses" (
 	"user_id" integer NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"address" varchar(255) NOT NULL UNIQUE,
-	"zip_code" varchar(8) NOT NULL,
+	"zip_code" varchar(9) NOT NULL,
 	"city" varchar(100) NOT NULL,
 	"state" varchar(100) NOT NULL,
 	CONSTRAINT "addresses_pk" PRIMARY KEY ("id")
