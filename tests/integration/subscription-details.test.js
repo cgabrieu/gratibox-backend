@@ -19,12 +19,19 @@ beforeEach(clearDatabase);
 describe(`POST ${subscriptionRoute}`, () => {
   it('returns status 200 for authorized request', async () => {
     const token = await createSubscription();
-
     const result = await request
       .get(subscriptionRoute)
       .set('x-access-token', token);
-
     
       expect(result.status).toEqual(200);
+  });
+
+  it('returns status 401 for unauthorized request', async () => {
+    const token = await createSubscription();
+    const result = await request
+      .get(subscriptionRoute)
+      .set('x-access-token', token+"WRONG");
+    
+      expect(result.status).toEqual(401);
   });
 });

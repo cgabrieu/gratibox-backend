@@ -25,6 +25,8 @@ export default async function subscriptionDetails(req, res) {
 
     const subscription = resultSubscription.rows;
 
+    if (!subscription.length) res.status(404).send('Assinatura não encontrada!');
+
     const receivingOptions = subscription.map((product) => ({
       option_name: product.option_name,
     }));
@@ -36,7 +38,6 @@ export default async function subscriptionDetails(req, res) {
       created_at: subscription[0].created_at,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500);
   }
 }

@@ -22,7 +22,7 @@ CREATE TABLE "addresses" (
 	"id" serial NOT NULL UNIQUE,
 	"user_id" integer NOT NULL,
 	"name" varchar(255) NOT NULL,
-	"address" varchar(255) NOT NULL UNIQUE,
+	"address" varchar(255) NOT NULL,
 	"zip_code" varchar(9) NOT NULL,
 	"city" varchar(100) NOT NULL,
 	"state" varchar(100) NOT NULL,

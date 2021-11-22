@@ -1,5 +1,5 @@
 import connection from '../../src/database/database';
-import { createToken, createUser } from './userFactory';
+import { createToken } from './userFactory';
 
 async function createSubscription() {
   const subscriptionInfo = {
