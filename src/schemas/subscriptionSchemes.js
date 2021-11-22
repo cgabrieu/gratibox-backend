@@ -4,8 +4,7 @@ import joi from 'joi';
 const subcribeSchema = joi
   .object({
     plan_type: joi.string().valid('Monthly', 'Weekly').required(),
-    day_month: joi.string().valid('1', '10', '20'),
-    day_week: joi.string().valid('Segunda', 'Quarta', 'Sexta'),
+    day: joi.string().valid('1', '10', '20', 'Segunda', 'Quarta', 'Sexta'),
     receiving_options: joi.array()
       .items(
         joi.object({
@@ -22,7 +21,6 @@ const subcribeSchema = joi
       .min(1)
       .required(),
     address: joi.object().required(),
-  })
-  .xor('day_month', 'day_week');
+  });
 
 export { subcribeSchema };

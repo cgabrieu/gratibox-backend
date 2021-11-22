@@ -13,8 +13,7 @@ export default async function subscribe(req, res) {
   try {
     const {
       plan_type: planType,
-      day_month: dayMonth,
-      day_week: dayWeek,
+      day,
       receiving_options: receivingOptions,
       address,
     } = req.body;
@@ -38,10 +37,10 @@ export default async function subscribe(req, res) {
 
     const resultSubscription = await connection.query(
       `INSERT INTO subscriptions
-      (user_id, plan_type, ${dayMonth ? 'day_month' : 'day_week'})
+      (user_id, plan_type, day)
       VALUES ($1, $2, $3)
       RETURNING id;`,
-      [userId, planType, (dayMonth || dayWeek)],
+      [userId, planType, day],
     );
     const subscriptionId = resultSubscription.rows[0].id;
 
@@ -61,7 +60,7 @@ export default async function subscribe(req, res) {
       [userId, address.name, address.address, address.cep, address.city, address.state],
     );
 
-    return res.status(201).send(`Assinatura (${planType} - Dia ${dayMonth || dayWeek}) registrada.`);
+    return res.status(201).send(`Assinatura (${planType} - Dia ${day}) registrada.`);
   } catch (error) {
     console.log(error);
     return res.status(500);
