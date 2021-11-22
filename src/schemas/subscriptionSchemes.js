@@ -21,6 +21,7 @@ const subcribeSchema = joi
       .unique()
       .min(1)
       .required(),
+    address: joi.object().required(),
   })
   .xor('day_month', 'day_week');
 

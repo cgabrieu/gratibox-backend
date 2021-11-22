@@ -16,6 +16,7 @@ export default async function subscribe(req, res) {
       day_month: dayMonth,
       day_week: dayWeek,
       receiving_options: receivingOptions,
+      address,
     } = req.body;
 
     const userId = await getAuthenticatedUserId(req.sessionId);
@@ -52,6 +53,13 @@ export default async function subscribe(req, res) {
         [subscriptionId, option.option_name],
       );
     });
+
+    await connection.query(
+      `INSERT INTO addresses
+      (user_id, name, address, zip_code, city, state)
+      VALUES ($1, $2, $3, $4, $5, $6)`,
+      [userId, address.name, address.address, address.cep, address.city, address.state],
+    );
 
     return res.status(201).send(`Assinatura (${planType} - Dia ${dayMonth || dayWeek}) registrada.`);
   } catch (error) {
