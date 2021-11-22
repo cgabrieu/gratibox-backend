@@ -21,12 +21,19 @@ describe(`POST ${subscribeRoute}`, () => {
 
     const body = {
       plan_type: 'Monthly',
-      day_month: '10',
+      day: '10',
       receiving_options: [
         { option_name: 'Chás' },
         { option_name: 'Incensos' },
         { option_name: 'Produtos Orgânicos' },
       ],
+      address: {
+        name: 'Gabriel Testonaldo',
+        address: 'Rua dos Testes, Residencial Morada dos Testes',
+        cep: '29142-111',
+        city: 'Testelândia',
+        state: 'ES',
+      },
     };
 
     const result = await request
@@ -42,12 +49,18 @@ describe(`POST ${subscribeRoute}`, () => {
 
     const body = {
       plan_type: 'Monthly',
-      day_month: '10',
+      day: 'Sexta',
       receiving_options: [
         { option_name: 'Chás' },
         { option_name: 'Incensos' },
-        { option_name: 'Produtos Orgânicos' },
       ],
+      address: {
+        name: 'Gabriel Testonaldo',
+        address: 'Rua dos Testes, Residencial Morada dos Testes',
+        cep: '29142-111',
+        city: 'Testelândia',
+        state: 'ES',
+      },
     };
 
     const result = await request
@@ -57,24 +70,28 @@ describe(`POST ${subscribeRoute}`, () => {
 
     expect(result.status).toEqual(201);
   });
-  
+
   it('returns status 409 if the user already has a subscription', async () => {
     const token = await createToken();
 
     const body = {
       plan_type: 'Monthly',
-      day_month: '10',
+      day: '10',
       receiving_options: [
         { option_name: 'Chás' },
         { option_name: 'Incensos' },
         { option_name: 'Produtos Orgânicos' },
       ],
+      address: {
+        name: 'Gabriel Testonaldo',
+        address: 'Rua dos Testes, Residencial Morada dos Testes',
+        cep: '29142-111',
+        city: 'Testelândia',
+        state: 'ES',
+      },
     };
 
-    await request
-      .post(subscribeRoute)
-      .set('x-access-token', token)
-      .send(body);
+    await request.post(subscribeRoute).set('x-access-token', token).send(body);
 
     const result = await request
       .post(subscribeRoute)
@@ -89,7 +106,7 @@ describe(`POST ${subscribeRoute}`, () => {
 
     let body = {
       plan_type: faker.lorem.word,
-      day_month: '10',
+      day: '10',
       receiving_options: [
         { option_name: 'Chás' },
         { option_name: 'Incensos' },
@@ -104,7 +121,7 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      day_month: faker.lorem.word,
+      day: faker.lorem.word,
       receiving_options: [
         { option_name: 'Chás' },
         { option_name: 'Incensos' },
@@ -119,8 +136,7 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      day_month: '10',
-      day_week: 'Sexta',
+      day: '10',
       receiving_options: [
         { option_name: 'Chás' },
         { option_name: 'Incensos' },
@@ -135,11 +151,8 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      day_week: 'Sexta',
-      receiving_options: [
-        { option_name: 'Chás' },
-        { option_name: 'Chás' },
-      ],
+      day: 'Sexta',
+      receiving_options: [{ option_name: 'Chás' }, { option_name: 'Chás' }],
     };
     result = await request
       .post(subscribeRoute)
@@ -149,11 +162,8 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      day_week: 'Sexta',
-      receiving_options: [
-        { option_name: 'Chás' },
-        { option_name: 'Chás' },
-      ],
+      day: 'Sexta',
+      receiving_options: [{ option_name: 'Chás' }, { option_name: 'Chás' }],
     };
     result = await request
       .post(subscribeRoute)
@@ -163,10 +173,7 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      receiving_options: [
-        { option_name: 'Chás' },
-        { option_name: 'Incensos' },
-      ],
+      receiving_options: [{ option_name: 'Chás' }, { option_name: 'Incensos' }],
     };
     result = await request
       .post(subscribeRoute)
@@ -176,9 +183,8 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      day_week: 'Sexta',
-      receiving_options: [
-      ],
+      day: 'Sexta',
+      receiving_options: [],
     };
     result = await request
       .post(subscribeRoute)
@@ -188,7 +194,7 @@ describe(`POST ${subscribeRoute}`, () => {
 
     body = {
       plan_type: 'Monthly',
-      day_week: 'Sexta',
+      day: 'Sexta',
     };
     result = await request
       .post(subscribeRoute)
@@ -196,5 +202,4 @@ describe(`POST ${subscribeRoute}`, () => {
       .send(body);
     expect(result.status).toEqual(400);
   });
-
 });
