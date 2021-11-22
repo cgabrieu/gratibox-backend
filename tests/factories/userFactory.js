@@ -26,17 +26,24 @@ async function createSession() {
     RETURNING id;`,
     [userId],
   );
-  return result.rows[0].id;
+  return {
+    id: result.rows[0].id,
+    userId,
+  };
 }
 
 async function createToken() {
+  const session = await createSession();
   const token = jwt.sign(
-    { sessionId: await createSession() },
+    { sessionId: session.id },
     process.env.JWT_SECRET,
     { expiresIn: 60 * 60 },
   );
 
-  return token;
+  return {
+    token,
+    userId: session.userId,
+  };
 }
 
 export { createUser, createSession, createToken };

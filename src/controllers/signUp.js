@@ -33,7 +33,6 @@ export default async function signUp(req, res) {
 
     return res.status(201).send('Conta criada com sucesso.');
   } catch (error) {
-    console.log(error);
     return res.status(500);
   }
 }

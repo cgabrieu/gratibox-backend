@@ -23,7 +23,7 @@ const subcribeSchema = joi
     address: joi.object({
       name: joi.string().min(2).required(),
       address: joi.string().min(4).required(),
-      cep: joi.string().length(9).required(),
+      cep: joi.string().min(8).max(9).required(),
       city: joi.string().min(2).required(),
       state: joi.string().length(2).required(),
     }).required(),

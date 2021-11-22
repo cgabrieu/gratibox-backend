@@ -62,7 +62,6 @@ export default async function subscribe(req, res) {
 
     return res.status(201).send(`Assinatura (${planType} - Dia ${day}) registrada.`);
   } catch (error) {
-    console.log(error);
     return res.status(500);
   }
 }
