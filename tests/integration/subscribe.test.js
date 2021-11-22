@@ -17,7 +17,7 @@ beforeEach(clearDatabase);
 
 describe(`POST ${subscribeRoute}`, () => {
   it('returns status 201 for valid inputs', async () => {
-    const token = await createToken();
+    const { token } = await createToken();
 
     const body = {
       plan_type: 'Monthly',
@@ -45,7 +45,7 @@ describe(`POST ${subscribeRoute}`, () => {
   });
 
   it('returns status 201 for valid inputs', async () => {
-    const token = await createToken();
+    const { token } = await createToken();
 
     const body = {
       plan_type: 'Monthly',
@@ -72,7 +72,7 @@ describe(`POST ${subscribeRoute}`, () => {
   });
 
   it('returns status 409 if the user already has a subscription', async () => {
-    const token = await createToken();
+    const { token } = await createToken();
 
     const body = {
       plan_type: 'Monthly',
@@ -102,7 +102,7 @@ describe(`POST ${subscribeRoute}`, () => {
   });
 
   it('returns status 400 when invalid inputs', async () => {
-    const token = await createToken();
+    const { token } = await createToken();
 
     let body = {
       plan_type: faker.lorem.word,
