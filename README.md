@@ -1,4 +1,4 @@
-## Gratibox 😊
+## Gratibox API 😊
 
 <div align="center">
   <h4>This is the backend repo, access the frontend repo <a href="https://github.com/cgabrieu/gratibox-frontend">here</a>.</h4>
