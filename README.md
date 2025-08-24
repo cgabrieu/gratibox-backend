@@ -6,7 +6,7 @@
     <img src="https://user-images.githubusercontent.com/25062334/144354678-760db174-fabb-41d1-a997-db36a92d044b.gif">
   </a>
     <br />
-    <a href="https://gratibox-f.vercel.app">View the deploy</a>
+    <a href="https://gratibox-f.vercel.app">Try it out</a>
     <br />
 </div>
   
@@ -14,7 +14,7 @@
 
 ## About
 
-A simple but wonderful application for you to express your gratitude. Subscribe and receive at home wonderful products to keep yourself grateful.
+A simple but wonderful application for you to express your gratitude.
     
 <br/>
 
@@ -85,10 +85,3 @@ npm run start:dev
 ```sh
 npm start
 ```
-  
-<br/>
-
-## Developer
-
-* [Carlos Gabriel](https://github.com/cgabrieu)
-
